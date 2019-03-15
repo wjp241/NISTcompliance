@@ -1,26 +1,44 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>pwned</title>
-    <script>
-      (()=> {
-        async function fetchPws() {
-          const response = await fetch("http://localhost:3000/passwords");
-          const passwords = await response.text();
-          // TODO: parse and store passwords.
-        };
-        fetchPws();
-      })();
-    </script>
-  </head>
-  <body>
-    <h1>NIST Password Validator</h1>
-    <div>
-      Password:
-      <input type="password" autocomplete="off" required>
-      <input type="submit" value="Check">
-    </div>
-  </body>
-</html>
 
+<head>
+  <meta charset="UTF-8">
+  <title>pwned</title>
+  <script>
+
+    (() => {
+      async function fetchPws() {
+        const response = await fetch("http://localhost:3000/passwords");
+        const passwords = await response.text();
+        // TODO: parse and store passwords.
+        const passObj = { ...passwords.split("\n") }
+        const passInput = document.getElementsByTagName('input')[0];
+        const checkBtn = document.getElementsByTagName('input')[1];
+        checkBtn.addEventListener("click", () => {
+          const typedPass = passInput.value;
+          const passLen = typedPass.length;
+          const ascii = /[\p{ASCII}]+/u;
+          //greater than 8 and less than 64 chars
+          //is only ASCII characters,
+          //and not in the common passwords collection.
+          if ((passLen <= 8 && passLen >= 64) || (ascii.test(typedPass)) || passObj.hasOwnProperty(typedPass)) {
+            alert("password should be ACIII characters that are greater than 8 and less than 64 in length and shoud not be common")
+          }
+        })
+      };
+      fetchPws();
+    })();
+
+  </script>
+</head>
+
+<body>
+  <h1>NIST Password Validator</h1>
+  <div>
+    Password:
+    <input type="password" autocomplete="off" required>
+    <input type="submit" value="Check">
+  </div>
+</body>
+
+</html>
