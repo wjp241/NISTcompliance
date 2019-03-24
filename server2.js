@@ -4,10 +4,10 @@ const fs = require('fs');
 
 let app = express();
 
-app.use('/', express.static(__dirname + '/app/'));
+app.use('/', express.static(__dirname + '/answer/'));
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/app/index.html');
+  res.sendFile(__dirname + '/answer/answer.html');
 });
 
 app.get('/passwords', function (req, res) {
@@ -21,5 +21,5 @@ app.get('/passwords', function (req, res) {
   src.pipe(res);
 });
 
-app.listen(4000, () => console.log('booting server...'));
+app.listen(3000, () => console.log('booting server...'));
 
